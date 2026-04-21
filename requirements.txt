@@ -1,0 +1,7 @@
+# This project uses the Python standard library only.
+# Optional environment variables enable real integrations for:
+# - OpenAI-compatible LLM APIs
+# - GitHub REST API
+# - Slack Web API
+# - SendGrid Mail Send API
+
