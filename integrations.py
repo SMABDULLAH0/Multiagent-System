@@ -82,6 +82,24 @@ class GitHubClient:
             payload={"title": title, "body": body},
         )
 
+    def find_issue_by_title(self, title: str) -> dict[str, Any] | None:
+        response = _http_json(
+            method="GET",
+            url=(
+                f"https://api.github.com/repos/{self.repository}/issues"
+                f"?state=all&per_page=100"
+            ),
+            headers=self.headers,
+        )
+        matches = [
+            item
+            for item in response
+            if isinstance(item, dict) and item.get("title") == title and "pull_request" not in item
+        ]
+        if not matches:
+            return None
+        return min(matches, key=lambda item: item.get("number", 10**9))
+
     def upsert_file(
         self,
         *,
@@ -124,6 +142,20 @@ class GitHubClient:
                 "base": self.base_branch,
             },
         )
+
+    def find_pull_request(self, head: str, state: str = "open") -> dict[str, Any] | None:
+        owner, repo = self.repository.split("/", 1)
+        response = _http_json(
+            method="GET",
+            url=(
+                f"https://api.github.com/repos/{self.repository}/pulls"
+                f"?state={urllib.parse.quote(state)}&head={urllib.parse.quote(f'{owner}:{head}')}"
+            ),
+            headers=self.headers,
+        )
+        if isinstance(response, list) and response:
+            return response[0]
+        return None
 
     def post_inline_review_comment(
         self,

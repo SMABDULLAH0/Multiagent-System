@@ -154,7 +154,9 @@ class EngineerAgent(BaseAgent):
         if self.github.enabled:
             try:
                 self.github.create_branch(branch)
-                issue = self.github.create_issue(issue_title, issue_body)
+                issue = self.github.find_issue_by_title(issue_title)
+                if issue is None:
+                    issue = self.github.create_issue(issue_title, issue_body)
                 commit = self.github.upsert_file(
                     path="index.html",
                     content=html,
@@ -163,7 +165,9 @@ class EngineerAgent(BaseAgent):
                     author_name="EngineerAgent",
                     author_email="agent@launchmind.ai",
                 )
-                pr = self.github.create_pull_request(pr_title, pr_body, branch)
+                pr = self.github.find_pull_request(branch)
+                if pr is None:
+                    pr = self.github.create_pull_request(pr_title, pr_body, branch)
                 issue_url = issue["html_url"]
                 pr_url = pr["html_url"]
                 commit_sha = commit["commit"]["sha"]

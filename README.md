@@ -10,6 +10,16 @@ The codebase is designed to run in two modes:
 
 The default idea is a campus marketplace for second-hand textbooks with trust signals based on verified university identities. The idea is configurable at runtime through `--idea` or `STARTUP_IDEA`.
 
+## Live Links
+
+- Repository: [SMABDULLAH0/Multiagent-System](https://github.com/SMABDULLAH0/Multiagent-System)
+- GitHub issue created by the workflow: [Issue #1](https://github.com/SMABDULLAH0/Multiagent-System/issues/1)
+- GitHub pull request created by the workflow: [PR #2](https://github.com/SMABDULLAH0/Multiagent-System/pull/2)
+- Slack workspace output: posted in `#launches`
+- Email test inbox: `smabdullah.ds@gmail.com`
+
+The repo also contains a later rerun issue (`#3`) from before the GitHub idempotency fix was tightened. Future reruns now reuse the existing PR and the oldest matching issue instead of creating a fresh one each time.
+
 ## Agent Architecture
 
 - `CEOAgent` decomposes the startup idea, reviews outputs, requests revisions, and posts a final summary.
@@ -42,7 +52,7 @@ The agents communicate over a shared in-memory message bus using the required JS
 1. Clone the repository.
 2. Copy `.env.example` to `.env`.
 3. Fill in the real platform credentials:
-   - `OPENAI_API_KEY`
+   - `OPENAI_API_KEY` or `GEMINI_API_KEY`
    - `GITHUB_TOKEN`
    - `GITHUB_REPOSITORY`
    - `SLACK_BOT_TOKEN`
